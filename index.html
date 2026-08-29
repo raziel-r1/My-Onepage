@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RAZIEL — Техно-стиль</title>
+    
+    <!-- Стили -->
+    <link rel="stylesheet" href="css/style.css" />
+    
+    <!-- Шрифты -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet" />
+    
+    <!-- Иконки -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  </head>
+  <body>
+    <!-- Фоновые математические формулы (ЛЕТАЮТ ВВЕРХ, ТЕПЕРЬ КРУПНЕЕ) -->
+    <div class="math-bg">
+      <div class="math-formula">∫ f(x) dx = F(x) + C</div>
+      <div class="math-formula">∇ ⋅ E = ρ / ε₀</div>
+      <div class="math-formula">e^(iπ) + 1 = 0</div>
+      <div class="math-formula">∑ n² = n(n+1)(2n+1)/6</div>
+      <div class="math-formula">∂u/∂t = α ∇²u</div>
+    </div>
+
+    <main class="container">
+      <header class="hero">
+        <h1 class="raziel-title">RAZIEL</h1>
+        <p class="tagline">звук • код • история</p>
+        
+        <!-- БЕГУЩАЯ СТРОКА: Плавная, градиентная (сине-фиолетовая) -->
+        <div class="roles-marquee-wrapper">
+          <div class="roles-marquee" aria-hidden="true">
+            <!-- Копия 1 -->
+            <div class="roles-content">
+              музыкант • композитор • битмейкер • стример • ютубер • веб‑разработчик • начинающий программист • сторителлер • монтажёр •
+            </div>
+            <!-- Копия 2 (для бесшовной петли) -->
+            <div class="roles-content">
+              музыкант • композитор • битмейкер • стример • ютубер • веб‑разработчик • начинающий программист • сторителлер • монтажёр •
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="grid-layout">
+        <section class="card projects">
+          <h2>Большие проекты</h2>
+          <ul class="project-list">
+            <li>Сериал по Майну</li>
+            <li>
+              Большой сайт для
+              <a href="#" target="_blank" rel="noopener noreferrer">El miu azhar</a>
+            </li>
+          </ul>
+        </section>
+
+        <section class="card contacts">
+          <h2>Контакты</h2>
+          <div class="social-icons">
+            <a href="#" title="Telegram" class="icon-btn tg"><i class="fab fa-telegram-plane"></i></a>
+            <a href="#" title="TikTok" class="icon-btn tt"><i class="fab fa-tiktok"></i></a>
+            <a href="#" title="YouTube" class="icon-btn yt"><i class="fab fa-youtube"></i></a>
+            <a href="#" title="Twitch" class="icon-btn tw"><i class="fab fa-twitch"></i></a>
+            <a href="#" title="Discord" class="icon-btn ds"><i class="fab fa-discord"></i></a>
+          </div>
+          <p class="social-hint">нажми, чтобы перейти</p>
+        </section>
+      </div>
+
+      <footer>
+        <div class="footer-line"></div>
+        <p>&copy; 2026 Raziel. Все права защищены.</p>
+      </footer>
+    </main>
+  </body>
+</html>
