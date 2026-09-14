@@ -530,4 +530,69 @@ footer p {
     text-shadow: 0 0 40px rgba(138, 43, 239, 0.4), 0 0 20px rgba(0, 119, 182, 0.3);
   }
 }
+.main-nav {
+  display: flex;
+  justify-content: center;
+  padding: 16px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(15, 15, 19, 0.6); /* чуть затемнённый фон под твой --bg-dark */
+  backdrop-filter: blur(8px);
+  position: relative;
+  z-index: 10;
+}
+
+.nav-link {
+  color: rgba(255, 255, 255, 0.45);
+  text-decoration: none;
+  font-family: 'Orbitron', monospace;
+  font-size: 0.95rem;
+  font-weight: 400;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin: 0 14px;
+  position: relative;
+  transition: color 0.3s ease, transform 0.2s ease;
+  overflow: hidden;
+}
+
+/* Тонкая линия под ссылкой при наведении */
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 0;
+  width: 0%;
+  height: 1px;
+  background: var(--primary-purple);
+  transition: width 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  box-shadow: 0 0 8px rgba(138, 43, 239, 0.6);
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+
+/* Акцент на активной ссылке — более сильное свечение */
+.nav-link.active::after {
+  box-shadow: 0 0 16px rgba(138, 43, 239, 0.8);
+}
+
+@media (max-width: 768px) {
+  .main-nav {
+    padding: 12px 0;
+    border: none; /* на мобильных убираем рамки, чтобы не перегружать */
+  }
+  .nav-link {
+    margin: 0 10px;
+    font-size: 0.85rem;
+  }
+}
 

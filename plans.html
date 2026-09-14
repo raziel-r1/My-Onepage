@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Планы | RAZIEL</title>
+
+    <link rel="stylesheet" href="css/style.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+    <style>
+      /* --- Базовые настройки --- */
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: 15, 15, 19, 0.6;
+        color: #fff;
+      }
+
+      .plans-wrapper {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 60px 20px;
+      }
+
+      .plans-header {
+        text-align: center;
+        margin-bottom: 60px;
+      }
+
+      .section-title {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 3rem;
+        text-transform: uppercase;
+        letter-spacing: 6px;
+        margin: 0 0 12px 0;
+        background: linear-gradient(to right, #8a2be3, #00ffdc);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-fill-color: transparent;
+        text-shadow: 0 0 30px rgba(138, 43, 239, 0.4);
+      }
+
+      .section-subtitle {
+        color: #a0a0a0;
+        font-family: 'Manrope', sans-serif;
+        font-size: 1.1rem;
+        max-width: 600px;
+        margin: 0 auto;
+        line-height: 1.5;
+      }
+
+      /* --- Сетка --- */
+      .plans-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 32px;
+      }
+
+      /* --- Карточки (Базовый стиль) --- */
+      .plan-card {
+        padding: 28px;
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        backdrop-filter: blur(5px);
+      }
+
+      /* --- Цветовые темы для статусов (ГЛАВНОЕ ИЗМЕНЕНИЕ) --- */
+      
+      /* НАЧАТО: Жёлто-оранжевый градиент */
+      .plan-card.status-started {
+        background: linear-gradient(135deg, #2a1b05 0%, #4d2e0a 100%);
+        border-color: rgba(255, 215, 0, 0.3);
+      }
+      
+      /* В ПРОЦЕССЕ: Сине-голубой градиент */
+      .plan-card.status-in-progress {
+        background: linear-gradient(135deg, #051020 0%, #0a2540 100%);
+        border-color: rgba(0, 255, 255, 0.2);
+      }
+
+      /* В ПЛАНАХ: Тёмно-серый с фиолетовым свечением */
+      .plan-card.status-planned {
+        background: linear-gradient(135deg, #15151a 0%, #0b0b0d 100%);
+        border-color: rgba(100, 100, 100, 0.2);
+      }
+
+      /* --- Эффект при наведении --- */
+      .plan-card:hover {
+        transform: translateY(-8px);
+        z-index: 10;
+        border-color: rgba(255, 255, 255, 0.2);
+      }
+
+      .plan-card.status-started:hover {
+        box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+      }
+      .plan-card.status-in-progress:hover {
+        box-shadow: 0 0 30px rgba(0, 255, 255, 0.4);
+      }
+      .plan-card.status-planned:hover {
+        box-shadow: 0 0 20px rgba(138, 43, 239, 0.2);
+      }
+
+      /* --- Иконка --- */
+      .plan-icon {
+        width: 52px;
+        height: 52px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+        font-size: 1.4rem;
+        flex-shrink: 0;
+      }
+
+      .plan-card.status-started .plan-icon { color: #ffd700; border: 1px solid rgba(255, 215, 0, 0.3); }
+      .plan-card.status-in-progress .plan-icon { color: #00ffff; border: 1px solid rgba(0, 255, 255, 0.3); }
+      .plan-card.status-planned .plan-icon { color: #888; border: 1px solid rgba(100, 100, 100, 0.3); }
+
+      /* --- Текст --- */
+      .plan-card h3 {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 1.3rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin: 0 0 12px 0;
+        color: #fff;
+        line-height: 1.2;
+      }
+
+      .plan-card p {
+        color: rgba(255, 255, 255, 0.7);
+        font-family: 'Manrope', sans-serif;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        margin: 0;
+        flex-grow: 1; /* Чтобы текст прижимал статус вниз */
+      }
+
+      /* --- СТАТУС (Выравнивание по центру снизу) --- */
+      .status-badge {
+        align-self: center; /* Центрирует элемент по горизонтали во флекс-контейнере */
+        margin-top: auto;   /* Прижимает элемент к самому низу карточки */
+        padding: 10px 24px;
+        border-radius: 50px;
+        font-family: 'Orbitron', sans-serif;
+        font-size: 0.75rem;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        position: relative;
+        overflow: hidden;
+        z-index: 2;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        transition: transform 0.3s ease;
+      }
+
+      /* Анимация сканирования внутри бейджа */
+      .status-badge::before {
+        content: '';
+        position: absolute;
+        top: 0; left: -100%;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.2);
+        transform: skewX(-25deg);
+        animation: scan-effect 2s infinite;
+        z-index: -1;
+        pointer-events: none;
+      }
+
+      @keyframes scan-effect {
+        0% { left: -100%; }
+        50% { left: 100%; }
+        100% { left: 100%; }
+      }
+
+      /* Цвета бейджей под цвет карточки */
+      .status-badge.started-badge {
+        background: rgba(255, 215, 0, 0.2);
+        border: 1px solid rgba(255, 215, 0, 0.5);
+        color: #fff;
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+      }
+
+      .status-badge.in-progress-badge {
+        background: rgba(0, 255, 255, 0.15);
+        border: 1px solid rgba(0, 255, 255, 0.5);
+        color: #fff;
+        box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+      }
+
+      .status-badge.planned-badge {
+        background: rgba(100, 100, 100, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: #aaa;
+        box-shadow: none;
+      }
+
+      .plan-card:hover .status-badge {
+        transform: scale(1.05);
+        box-shadow: 0 0 25px rgba(255, 255, 255, 0.3);
+      }
+
+      /* --- Блок манифеста (Широкий) --- */
+      .manifest-block {
+        grid-column: 1 / -1;
+        background: rgba(138, 43, 239, 0.08);
+        border: 1px solid rgba(138, 43, 239, 0.2);
+        padding: 30px;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        backdrop-filter: blur(10px);
+      }
+
+      .manifest-icon {
+        width: 60px;
+        height: 60px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 1.6rem;
+      }
+
+      .manifest-content h3 {
+        margin: 0 0 5px 0;
+        font-family: 'Orbitron', sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        color: #fff;
+        text-shadow: 0 0 10px rgba(138, 43, 239, 0.5);
+      }
+
+      .manifest-content p {
+        margin: 0;
+        color: rgba(255, 255, 255, 0.7);
+        font-family: 'Manrope', sans-serif;
+      }
+
+      /* --- Кнопка Назад --- */
+      .back-section {
+        padding: 40px 20px;
+        text-align: center;
+      }
+
+      .back-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 14px 32px;
+        background: linear-gradient(to right, #8a2be3, #0077b6);
+        color: #fff;
+        text-decoration: none;
+        border-radius: 50px;
+        font-family: 'Orbitron', monospace;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        box-shadow: 0 10px 30px rgba(138, 43, 239, 0.35);
+        transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+        border: none;
+        cursor: pointer;
+      }
+
+      .back-btn:hover {
+        transform: translateY(-4px) scale(1.02);
+        box-shadow: 0 16px 40px rgba(138, 43, 239, 0.55);
+      }
+
+      .back-icon {
+        margin-right: 10px;
+        font-size: 1.1rem;
+        transform: rotate(180deg);
+      }
+
+      @media (max-width: 768px) {
+        .section-title { font-size: 2.2rem; }
+        .plans-wrapper { padding: 40px 20px; }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Фоновые формулы -->
+    <div class="math-bg" style="position: fixed; top: 0; left: 0; width: 200%; height: 200%; pointer-events: none; z-index: 0; overflow: hidden;">
+      <div class="math-formula" style="position: absolute; top: 10%; left: 5%; color: rgba(255,255,255,0.05); font-family: monospace; font-size: 1.2rem;">∫ f(x) dx = F(x) + C</div>
+      <div class="math-formula" style="position: absolute; top: 20%; right: 10%; color: rgba(255,255,255,0.05); font-family: monospace; font-size: 1.2rem;">∇ ⋅ E = ρ / ε₀</div>
+      <div class="math-formula" style="position: absolute; bottom: 10%; left: 10%; color: rgba(255,255,255,0.05); font-family: monospace; font-size: 1.2rem;">e^(iπ) + 1 = 0</div>
+      <div class="math-formula" style="position: absolute; bottom: 20%; right: 5%; color: rgba(255,255,255,0.05); font-family: monospace; font-size: 1.2rem;">∑ n² = n(n+1)(2n+1)/6</div>
+    </div>
+
+    <main class="container" style="position: relative; z-index: 1;">
+      <header class="hero">
+        <h1 class="raziel-title">RAZIEL</h1>
+        <p class="tagline">звук • код • история</p>
+        
+        <div class="roles-marquee-wrapper">
+          <div class="roles-marquee" aria-hidden="true">
+            <div class="roles-content">
+              музыкант • композитор • битмейкер • стример • ютубер • веб‑разработчик • начинающий программист • сторителлер • монтажёр •
+            </div>
+            <div class="roles-content">
+              музыкант • композитор • битмейкер • стример • ютубер • веб‑разработчик • начинающий программист • сторителлер • монтажёр •
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section class="plans-wrapper">
+        <div class="plans-header">
+          <h2 class="section-title">Планы</h2>
+          <p class="section-subtitle">Текущие метрики и приоритеты развития</p>
+        </div>
+
+        <div class="plans-grid">
+          <!-- НАЧАТО (Жёлтый) -->
+          <article class="plan-card status-started">
+            <div class="plan-icon">
+              <i class="fab fa-youtube"></i>
+            </div>
+            <h3>Активное ведение основного канала</h3>
+            <p>Регулярные выпуски, новые форматы и эксперименты с подачей. Цель — стабильный график и рост вовлечённости аудитории.</p>
+            <div class="status-badge started-badge">Начато</div>
+          </article>
+
+          <article class="plan-card status-started">
+            <div class="plan-icon">
+              <i class="fas fa-users"></i>
+            </div>
+            <h3>Активация всех соцсетей</h3>
+            <p>Больше сторис, коротких видео, постов с закулисьем. Соцсети должны ощущаться как живой поток моего творчества.</p>
+            <div class="status-badge started-badge">Начато</div>
+          </article>
+
+          <!-- В ПРОЦЕССЕ (Голубой) -->
+          <article class="plan-card status-in-progress">
+            <div class="plan-icon">
+              <i class="fas fa-book-open"></i>
+            </div>
+            <h3>Подготовка к ЕГЭ и будущей жизни</h3>
+            <p>Баланс между творчеством и учёбой. Приоритет — не терять фокус, двигаться к долгосрочным целям и закрывать академические задачи.</p>
+            <div class="status-badge in-progress-badge">В процессе</div>
+          </article>
+
+          <article class="plan-card status-in-progress">
+            <div class="plan-icon">
+              <i class="fas fa-tools"></i>
+            </div>
+            <h3>Улучшение сайта</h3>
+            <p>Доработка UX, добавление новых страниц и интерактивных элементов. Сайт должен стать полноценным инструментом взаимодействия.</p>
+            <div class="status-badge in-progress-badge">В планах</div>
+          </article>
+
+          <article class="plan-card status-in-progress">
+            <div class="plan-icon">
+              <i class="fas fa-folder-music"></i>
+            </div>
+            <h3>Расширение музыкального бэкенда</h3>
+            <p>Добавление новых демо, ремиксов и коллабораций. Хочу показать разные стороны своего звучания и жанровые эксперименты.</p>
+            <div class="status-badge in-progress-badge">В процессе</div>
+          </article>
+
+          <!-- В ПЛАНАХ (Серый/Фиолетовый) -->
+          <article class="plan-card status-planned">
+            <div class="plan-icon">
+              <i class="fas fa-chart-line"></i>
+            </div>
+            <h3>Построение новых планов и развитие бренда</h3>
+            <p>Стратегия на год вперёд: цели, метрики, ключевые проекты. Хочу осознанно развивать свой бренд и укреплять узнаваемость.</p>
+            <div class="status-badge planned-badge">В планах</div>
+          </article>
+
+          <!-- Манифест (Фишка) -->
+          <article class="manifest-block">
+            <div class="manifest-icon">
+              <i class="fas fa-bullseye"></i>
+            </div>
+            <div class="manifest-content">
+              <h3>Главный приоритет</h3>
+              <p>Синхронизация всех потоков: контент, музыка, учёба. Если один элемент выпадает — страдает вся система. Спасибо что остаётесь со мной.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Кнопка НАЗАД -->
+      <section class="back-section">
+        <a href="index.html" class="back-btn">
+          <span class="back-icon">◀</span> На главную
+        </a>
+      </section>
+
+      <footer style="text-align: center; padding: 40px 20px; color: #fcfcfc; border-top: 1px solid rgba(255,255,255,0.1);">
+        <p>&copy; 2026 Raziel. Все права защищены.</p>
+      </footer>
+    </main>
+  </body>
+</html>

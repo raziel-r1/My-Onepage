@@ -3,16 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Моя музыка | Портфолио</title>
-  <!-- Подключаем твой основной стиль со всеми переменными -->
+  <title>Моя музыка | RAZIEL</title>
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   
   <style>
-    /* Контейнер страницы */
     .music-page-wrapper {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 80px 20px; /* Увеличил верхний отступ, чтобы заголовок не прилипал к краю */
+      padding: 80px 20px;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -21,9 +23,8 @@
       z-index: 2;
     }
 
-    /* Кнопка НАЗАД (теперь слева) */
     .back-btn-wrapper {
-      align-self: flex-start; /* Прижимает блок к левому краю контейнера */
+      align-self: flex-start;
       margin-bottom: 40px;
     }
 
@@ -36,7 +37,7 @@
       color: #fff;
       text-decoration: none;
       border-radius: 50px;
-      font-family: 'Orbitron', sans-serif;
+      font-family: 'Orbitron', monospace;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 1px;
@@ -51,10 +52,7 @@
     .back-btn::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      top: 0; left: 0; right: 0; bottom: 0;
       background: rgba(255, 255, 255, 0.1);
       opacity: 0;
       transition: opacity 0.3s;
@@ -65,15 +63,12 @@
       box-shadow: 0 16px 40px rgba(138, 43, 239, 0.55);
     }
 
-    .back-btn:hover::before {
-      opacity: 1;
-    }
+    .back-btn:hover::before { opacity: 1; }
 
     .back-icon {
       margin-right: 10px;
       font-size: 1.1rem;
-      display: inline-block;
-      transform: rotate(180deg); 
+      transform: rotate(180deg);
     }
 
     h1.music-title {
@@ -99,27 +94,359 @@
       text-align: center;
       line-height: 1.5;
     }
+
+    .tracks-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      width: 100%;
+      max-width: 1100px;
+      margin-top: 48px;
+    }
+
+    .track-card {
+      padding: 20px;
+      border-radius: 16px;
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .track-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 36px rgba(138, 43, 239, 0.2);
+    }
+
+    /* Нотка слева сверху */
+    .track-note-icon {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      color: var(--primary-purple);
+      font-size: 1.2rem;
+      opacity: 0.6;
+      pointer-events: none;
+      z-index: 3;
+      filter: drop-shadow(0 0 8px rgba(138, 43, 239, 0.4));
+    }
+
+    .track-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .track-icon {
+      width: 44px;
+      height: 44px;
+      background: rgba(138, 43, 239, 0.15);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary-purple);
+      margin-right: 14px;
+      flex-shrink: 0;
+    }
+
+    .track-name {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #fff;
+    }
+
+    .track-genre {
+      font-family: 'Manrope', sans-serif;
+      font-size: 0.9rem;
+      color: var(--text-gray);
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    .track-desc {
+      color: var(--text-gray);
+      font-family: 'Manrope', sans-serif;
+      font-size: 0.95rem;
+      line-height: 1.4;
+      margin-bottom: 20px;
+      flex-grow: 1;
+    }
+
+    .play-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 28px;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 999px;
+      font-family: 'Orbitron', monospace;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .play-btn span {
+      margin-right: 8px;
+      display: block;
+    }
+
+    .play-btn:hover {
+      border-color: var(--primary-purple);
+      background: rgba(138, 43, 239, 0.12);
+      color: #fff;
+      box-shadow: 0 0 20px rgba(138, 43, 239, 0.4);
+    }
+
+    .play-btn.playing {
+      background: var(--primary-purple);
+      border-color: var(--primary-purple);
+      color: #fff;
+      box-shadow: 0 0 24px rgba(138, 43, 239, 0.6);
+    }
+
+    .featured-block {
+      margin-top: 64px;
+      width: 100%;
+      max-width: 800px;
+      padding: 40px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(138, 43, 239, 0.1), rgba(0, 119, 182, 0.1));
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .featured-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2rem;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      margin: 0 0 12px 0;
+      color: #fff;
+      text-shadow: 0 0 20px rgba(138, 43, 239, 0.5);
+    }
+
+    .featured-subtitle {
+      color: rgba(255,255,255,0.7);
+      font-family: 'Manrope', sans-serif;
+      font-size: 1rem;
+      margin-bottom: 28px;
+    }
+
+    .featured-play-btn {
+      padding: 18px 48px;
+      font-size: 1.1rem;
+    }
+
+    @media (max-width: 768px) {
+      .tracks-grid { grid-template-columns: 1fr; }
+      .music-title { font-size: 2.5rem; }
+    }
   </style>
 </head>
 <body>
 
-  <div class="music-page-wrapper">
-    
-    <!-- Кнопка НАЗАД (теперь слева) -->
-    <div class="back-btn-wrapper">
-      <a href="index.html" class="back-btn">
-        <span class="back-icon">◀</span> На главную
-      </a>
-    </div>
-
-    <h1 class="music-title">Мои треки</h1>
-    <p class="music-subtitle">Послушай мои композиции. Здесь скоро появится полный список релизов.</p>
-
+  <!-- Фоновые формулы (как на главной) -->
+  <div class="math-bg">
+    <div class="math-formula">∫ f(x) dx = F(x) + C</div>
+    <div class="math-formula">∇ ⋅ E = ρ / ε₀</div>
+    <div class="math-formula">e^(iπ) + 1 = 0</div>
+    <div class="math-formula">∑ n² = n(n+1)(2n+1)/6</div>
+    <div class="math-formula">∂u/∂t = α ∇²u</div>
   </div>
+
+  <main class="container">
+    <div class="music-page-wrapper">
+      
+      <!-- Кнопка НАЗАД -->
+      <div class="back-btn-wrapper">
+        <a href="index.html" class="back-btn">
+          <span class="back-icon">◀</span> На главную
+        </a>
+      </div>
+
+      <h1 class="music-title">Мои треки</h1>
+      <p class="music-subtitle">Послушай мои композиции. Здесь — демо, эксперименты и просто одни из лучших/любимых работ.</p>
+
+      <!-- Сетка обычных треков -->
+      <section class="tracks-grid">
+        <!-- drumboost -->
+        <article class="track-card">
+          <i class="fas fa-music track-note-icon"></i>
+          <div class="track-header">
+            <div class="track-icon"><i class="fas fa-drum"></i></div>
+            <div>
+              <div class="track-name">Drumboost</div>
+              <div class="track-genre">Techno / Beat</div>
+            </div>
+          </div>
+          <p class="track-desc">Трек который дал мне неплохой толчёк в развитии и понимании драмки и апперкуссии.</p>
+          <a href="#" class="play-btn play-trigger" data-src="audio/drumboost.wav">
+            <span><i class="fas fa-play"></i></span> Play
+          </a>
+        </article>
+
+        <!-- grituaresso -->
+        <article class="track-card">
+          <i class="fas fa-music track-note-icon"></i>
+          <div class="track-header">
+            <div class="track-icon"><i class="fas fa-wave-square"></i></div>
+            <div>
+              <div class="track-name">Grituaresso</div>
+              <div class="track-genre">Experimental / Ambient+HeavyGuitar</div>
+            </div>
+          </div>
+          <p class="track-desc">Атмосферный скетч с необычным звучанием.</p>
+          <a href="#" class="play-btn play-trigger" data-src="audio/grituaresso.wav">
+            <span><i class="fas fa-play"></i></span> Play
+          </a>
+        </article>
+
+        <!-- tatitas -->
+        <article class="track-card">
+          <i class="fas fa-music track-note-icon"></i>
+          <div class="track-header">
+            <div class="track-icon"><i class="fas fa-notes"></i></div>
+            <div>
+              <div class="track-name">Tatitas</div>
+              <div class="track-genre">Epic / cinematic</div>
+            </div>
+          </div>
+          <p class="track-desc">Один из лучших мои треков, сильная атмосфера и самый большой толчёк в области создания музыки и звуковых эффектов в частности.</p>
+          <a href="#" class="play-btn play-trigger" data-src="audio/tatitas.wav">
+            <span><i class="fas fa-play"></i></span> Play
+          </a>
+        </article>
+
+        <!-- The_start -->
+        <article class="track-card">
+          <i class="fas fa-music track-note-icon"></i>
+          <div class="track-header">
+            <div class="track-icon"><i class="fas fa-rocket"></i></div>
+            <div>
+              <div class="track-name">The Start</div>
+              <div class="track-genre">Intro (for video) / Classic+electro style</div>
+            </div>
+          </div>
+          <p class="track-desc">Интро‑атмосфера: мягкие пэды и нарастание. Идеален как открывающий трек, довольно кинематографичная музыка.</p>
+          <a href="#" class="play-btn play-trigger" data-src="audio/The_start.wav">
+            <span><i class="fas fa-play"></i></span> Play
+          </a>
+        </article>
+
+        <!-- morch -->
+        <article class="track-card">
+          <i class="fas fa-music track-note-icon"></i>
+          <div class="track-header">
+            <div class="track-icon"><i class="fas fa-microphone-alt"></i></div>
+            <div>
+              <div class="track-name">Morch</div>
+              <div class="track-genre">Dark / MiddleAges-style?</div>
+            </div>
+          </div>
+          <p class="track-desc">Мрачная композиция с вокальными сэмплами и плотным басом.</p>
+          <a href="#" class="play-btn play-trigger" data-src="audio/morch.wav">
+            <span><i class="fas fa-play"></i></span> Play
+          </a>
+        </article>
+      </section>
+
+      <!-- Особый блок для Razy_Miu_part1 -->
+      <section class="featured-block">
+        <h2 class="featured-title">Razy_Miu Part 1</h2>
+        <p class="featured-subtitle">Мини‑релиз с вокальным исполнением. Один из немногих треков с вокалом</p>
+        <a href="#" class="play-btn featured-play-btn play-trigger" data-src="audio/Razy_Miu_part1.mp3">
+          <span><i class="fas fa-compact-disc"></i></span> Слушать релиз
+        </a>
+      </section>
+    </div>
+  </main>
 
   <footer>
     <div class="footer-line"></div>
-    <p>&copy; 2026 Моё портфолио</p>
+    <p>&copy; 2026 RAZIEL. Все права защищены.</p>
   </footer>
+
+  <!-- Скрипт для воспроизведения -->
+  <script>
+    const audio = new Audio();
+    let isPlaying = false;
+
+    document.querySelectorAll('.play-trigger').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const src = btn.getAttribute('data-src');
+        const isThisBtnPlaying = btn.classList.contains('playing');
+
+        // Если уже играет этот трек — ставим на паузу
+        if (isThisBtnPlaying) {
+          audio.pause();
+          audio.currentTime = 0;
+          updateButton(btn, false);
+          isPlaying = false;
+          return;
+        }
+
+        // Если играет другой трек — останавливаем его
+        if (isPlaying) {
+          const currentlyPlayingBtn = document.querySelector('.play-trigger.playing');
+          if (currentlyPlayingBtn) {
+            updateButton(currentlyPlayingBtn, false);
+          }
+          audio.pause();
+          audio.currentTime = 0;
+        }
+
+        // Запускаем новый трек
+        audio.src = src;
+        audio.play().catch(error => {
+          console.error('Ошибка воспроизведения:', error);
+          alert('Не удалось воспроизвести трек. Проверь путь к файлу и формат.');
+        });
+
+        updateButton(btn, true);
+        isPlaying = true;
+      });
+    });
+
+    // Вспомогательная функция для обновления кнопки
+    function updateButton(btn, isPlaying) {
+      if (isPlaying) {
+        btn.innerHTML = '<span><i class="fas fa-pause"></i></span> Pause';
+        btn.classList.add('playing');
+      } else {
+        btn.innerHTML = '<span><i class="fas fa-play"></i></span> Play';
+        btn.classList.remove('playing');
+      }
+    }
+
+    // Сброс при окончании трека
+    audio.addEventListener('ended', () => {
+      const playingBtn = document.querySelector('.play-trigger.playing');
+      if (playingBtn) {
+        updateButton(playingBtn, false);
+      }
+      isPlaying = false;
+    });
+  </script>
 </body>
 </html>
