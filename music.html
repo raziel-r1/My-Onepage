@@ -23,6 +23,88 @@
       z-index: 2;
     }
 
+    .mini-player {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(12px);
+    padding: 10px 16px;
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+    z-index: 100;
+    width: fit-content;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .mini-player.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .player-cover {
+    width: 44px;
+    height: 44px;
+    background: rgba(138, 43, 239, 0.15);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #8a2be3;
+  }
+
+  .player-info {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+  }
+
+  .player-track {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #fff;
+  }
+
+  .player-artist {
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.8rem;
+    color: #aaa;
+  }
+
+  .player-btn {
+    width: 42px;
+    height: 42px;
+    background: #8a2be3;
+    border: none;
+    border-radius: 50%;
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(138, 43, 239, 0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .player-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 18px rgba(138, 43, 239, 0.6);
+  }
+
+  .player-btn.paused {
+    background: #551a8b;
+  }
+
     .back-btn-wrapper {
       align-self: flex-start;
       margin-bottom: 40px;
@@ -33,7 +115,8 @@
       align-items: center;
       justify-content: center;
       padding: 14px 32px;
-      background: var(--gradient-main);
+      background: var(--gradient-main); /* это уже у тебя есть */
+      box-shadow: 0 10px 30px rgba(138, 43, 239, 0.35);
       color: #fff;
       text-decoration: none;
       border-radius: 50px;
@@ -41,7 +124,6 @@
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 1px;
-      box-shadow: 0 10px 30px rgba(138, 43, 239, 0.35);
       transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
       position: relative;
       overflow: hidden;
@@ -379,6 +461,20 @@
         </a>
       </section>
     </div>
+
+      <div class="mini-player" id="miniPlayer">
+    <div class="player-cover">
+      <i class="fas fa-compact-disc"></i>
+    </div>
+    <div class="player-info">
+      <span class="player-track">Не играет</span>
+      <span class="player-artist">RAZIEL</span>
+    </div>
+    <button class="player-btn" id="playerPlayBtn">
+      <i class="fas fa-play"></i>
+    </button>
+  </div>
+
   </main>
 
   <footer>
@@ -388,65 +484,92 @@
 
   <!-- Скрипт для воспроизведения -->
   <script>
-    const audio = new Audio();
-    let isPlaying = false;
+const audio = new Audio();
+let isPlaying = false;
+const miniPlayer = document.getElementById('miniPlayer');
+const playerTrackEl = miniPlayer.querySelector('.player-track');
+const playerBtn = document.getElementById('playerPlayBtn');
+const btnIcon = playerBtn.querySelector('i');
 
-    document.querySelectorAll('.play-trigger').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        const src = btn.getAttribute('data-src');
-        const isThisBtnPlaying = btn.classList.contains('playing');
+document.querySelectorAll('.play-trigger').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    const src = btn.getAttribute('data-src');
+    const trackName = btn.closest('.track-card').querySelector('.track-name').textContent;
+    const isThisBtnPlaying = btn.classList.contains('playing');
 
-        // Если уже играет этот трек — ставим на паузу
-        if (isThisBtnPlaying) {
-          audio.pause();
-          audio.currentTime = 0;
-          updateButton(btn, false);
-          isPlaying = false;
-          return;
-        }
-
-        // Если играет другой трек — останавливаем его
-        if (isPlaying) {
-          const currentlyPlayingBtn = document.querySelector('.play-trigger.playing');
-          if (currentlyPlayingBtn) {
-            updateButton(currentlyPlayingBtn, false);
-          }
-          audio.pause();
-          audio.currentTime = 0;
-        }
-
-        // Запускаем новый трек
-        audio.src = src;
-        audio.play().catch(error => {
-          console.error('Ошибка воспроизведения:', error);
-          alert('Не удалось воспроизвести трек. Проверь путь к файлу и формат.');
-        });
-
-        updateButton(btn, true);
-        isPlaying = true;
-      });
-    });
-
-    // Вспомогательная функция для обновления кнопки
-    function updateButton(btn, isPlaying) {
-      if (isPlaying) {
-        btn.innerHTML = '<span><i class="fas fa-pause"></i></span> Pause';
-        btn.classList.add('playing');
-      } else {
-        btn.innerHTML = '<span><i class="fas fa-play"></i></span> Play';
-        btn.classList.remove('playing');
-      }
+    if (isThisBtnPlaying) {
+      audio.pause();
+      updateButton(btn, false);
+      toggleMiniPlayer(false);
+      isPlaying = false;
+      return;
     }
 
-    // Сброс при окончании трека
-    audio.addEventListener('ended', () => {
-      const playingBtn = document.querySelector('.play-trigger.playing');
-      if (playingBtn) {
-        updateButton(playingBtn, false);
-      }
-      isPlaying = false;
+    if (isPlaying) {
+      const currentlyPlayingBtn = document.querySelector('.play-trigger.playing');
+      if (currentlyPlayingBtn) updateButton(currentlyPlayingBtn, false);
+      audio.pause();
+      audio.currentTime = 0;
+    }
+
+    audio.src = src;
+    playerTrackEl.textContent = trackName;
+    toggleMiniPlayer(true);
+
+    audio.play().catch(error => {
+      console.error('Ошибка воспроизведения:', error);
+      alert('Не удалось воспроизвести трек. Проверь путь к файлу и формат.');
     });
+
+    updateButton(btn, true);
+    isPlaying = true;
+    btnIcon.classList.remove('fa-play');
+    btnIcon.classList.add('fa-pause');
+  });
+});
+
+function updateButton(btn, isPlaying) {
+  if (isPlaying) {
+    btn.innerHTML = '<span><i class="fas fa-pause"></i></span> Pause';
+    btn.classList.add('playing');
+  } else {
+    btn.innerHTML = '<span><i class="fas fa-play"></i></span> Play';
+    btn.classList.remove('playing');
+  }
+}
+
+function toggleMiniPlayer(show) {
+  if (show) {
+    miniPlayer.classList.add('active');
+  } else {
+    miniPlayer.classList.remove('active');
+  }
+}
+
+audio.addEventListener('ended', () => {
+  const playingBtn = document.querySelector('.play-trigger.playing');
+  if (playingBtn) updateButton(playingBtn, false);
+  toggleMiniPlayer(false);
+  isPlaying = false;
+  btnIcon.classList.remove('fa-pause');
+  btnIcon.classList.add('fa-play');
+});
+
+// Клик по кнопке мини‑плеера
+playerBtn.addEventListener('click', () => {
+  if (!isPlaying) return;
+  if (audio.paused) {
+    audio.play();
+    btnIcon.classList.remove('fa-pause');
+    btnIcon.classList.add('fa-play');
+  } else {
+    audio.pause();
+    btnIcon.classList.remove('fa-play');
+    btnIcon.classList.add('fa-pause');
+  }
+});
+
   </script>
 </body>
 </html>

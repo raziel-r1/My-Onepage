@@ -75,6 +75,51 @@
         transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
         backdrop-filter: blur(5px);
       }
+      .progress-bar-wrapper {
+        margin-bottom: 16px;
+      }
+
+      .progress-label {
+        font-family: 'Manrope', sans-serif;
+        font-size: 0.85rem;
+        color: rgba(255,255,255,0.7);
+        margin-bottom: 6px;
+      }
+
+      .progress-bar {
+        height: 8px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #8a2be3, #00ffdc);
+        border-radius: 4px;
+        position: relative;
+      }
+
+      .progress-fill::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: -4px; bottom: -4px;
+        width: 12px;
+        background: rgba(255,255,255,0.15);
+        clip-path: polygon(100% 0, 100% 100%, 0 50%);
+      }
+
+      .progress-value {
+        float: right;
+        font-family: 'Orbitron', sans-serif;
+        font-size: 0.8rem;
+        color: #00ffdc;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-top: 4px;
+      }
 
       /* --- Цветовые темы для статусов (ГЛАВНОЕ ИЗМЕНЕНИЕ) --- */
       
@@ -367,7 +412,7 @@
             </div>
             <h3>Улучшение сайта</h3>
             <p>Доработка UX, добавление новых страниц и интерактивных элементов. Сайт должен стать полноценным инструментом взаимодействия.</p>
-            <div class="status-badge in-progress-badge">В планах</div>
+            <div class="status-badge in-progress-badge">В процессе</div>
           </article>
 
           <article class="plan-card status-in-progress">
@@ -391,6 +436,14 @@
 
           <!-- Манифест (Фишка) -->
           <article class="manifest-block">
+                        <div class="progress-bar-wrapper">
+              <div class="progress-label">Синхронизация потоков</div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 68%;"></div>
+              </div>
+              <div class="progress-value">68%</div>
+            </div>
+
             <div class="manifest-icon">
               <i class="fas fa-bullseye"></i>
             </div>
