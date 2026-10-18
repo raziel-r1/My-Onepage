@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Код и проекты | RAZIEL</title>
+
+    <link rel="stylesheet" href="css/style.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+    <style>
+      :root {
+        --primary-purple: #8a2be3;
+        --accent-cyan: #00ffdc;
+        --text-gray: #aaa;
+        --card-bg: rgba(255, 255, 255, 0.04);
+        --gradient-main: linear-gradient(to right, var(--primary-purple), var(--accent-cyan));
+        --code-bg: #0b0b1a;
+      }
+
+      .code-page-wrapper {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 80px 20px;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        z-index: 2;
+      }
+
+      .back-btn-wrapper {
+        align-self: flex-start;
+        margin-bottom: 40px;
+      }
+
+      .back-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 14px 32px;
+        background: var(--gradient-main);
+        color: #fff;
+        text-decoration: none;
+        border-radius: 50px;
+        font-family: 'Orbitron', monospace;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        box-shadow: 0 10px 30px rgba(138, 43, 239, 0.35);
+        transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+        border: none;
+        cursor: pointer;
+      }
+
+      .back-btn:hover {
+        transform: translateY(-4px) scale(1.02);
+        box-shadow: 0 16px 40px rgba(138, 43, 239, 0.55);
+      }
+
+      .back-icon {
+        margin-right: 10px;
+        font-size: 1.1rem;
+        transform: rotate(180deg);
+      }
+
+      h1.code-title {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 3.5rem;
+        text-transform: uppercase;
+        letter-spacing: 6px;
+        margin-bottom: 16px;
+        background: var(--gradient-main);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-fill-color: transparent;
+        text-shadow: 0 0 30px rgba(138, 43, 239, 0.4);
+        width: 100%;
+        text-align: center;
+      }
+
+      .code-subtitle {
+        color: var(--text-gray);
+        font-family: 'Manrope', sans-serif;
+        font-size: 1.1rem;
+        max-width: 600px;
+        text-align: center;
+        line-height: 1.5;
+      }
+
+      /* --- Имитация код-блока (декоративный) --- */
+      .code-snippet {
+        width: 100%;
+        max-width: 700px;
+        margin-top: 48px;
+        background: var(--code-bg);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5);
+      }
+
+      .code-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 16px;
+        background: rgba(255, 255, 255, 0.03);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      }
+
+      .code-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+      }
+      .code-dot.red { background: #ff5f57; }
+      .code-dot.yellow { background: #ffbd2e; }
+      .code-dot.green { background: #28ca42; }
+
+      .code-filename {
+        margin-left: 12px;
+        font-family: 'Manrope', sans-serif;
+        font-size: 0.85rem;
+        color: var(--text-gray);
+      }
+
+      .code-body {
+        padding: 20px;
+        font-family: 'Courier New', monospace;
+        font-size: 0.9rem;
+        line-height: 1.6;
+        color: #e0e0e0;
+      }
+
+      .code-body .kw { color: #c678dd; }
+      .code-body .str { color: #98c379; }
+      .code-body .fn { color: #61afef; }
+      .code-body .var { color: #e5c07b; }
+      .code-body .comment { color: #5c6370; font-style: italic; }
+      .code-body .num { color: #d19a66; }
+
+      /* --- Сетка навыков --- */
+      .skills-section {
+        width: 100%;
+        max-width: 1100px;
+        margin-top: 64px;
+      }
+
+      .skills-section h2 {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 1.8rem;
+        text-transform: uppercase;
+        letter-spacing: 4px;
+        color: #fff;
+        text-align: center;
+        margin-bottom: 32px;
+        background: var(--gradient-main);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 20px;
+      }
+
+      .skill-card {
+        padding: 24px;
+        border-radius: 16px;
+        background: var(--card-bg);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .skill-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 16px 36px rgba(138, 43, 239, 0.2);
+        border-color: rgba(138, 43, 239, 0.3);
+      }
+
+      .skill-card .skill-icon {
+        width: 48px;
+        height: 48px;
+        background: rgba(138, 43, 239, 0.15);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--primary-purple);
+        font-size: 1.3rem;
+        margin-bottom: 16px;
+      }
+
+      .skill-card h3 {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 1.1rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: #fff;
+        margin: 0 0 8px 0;
+      }
+
+      .skill-card p {
+        color: var(--text-gray);
+        font-family: 'Manrope', sans-serif;
+        font-size: 0.9rem;
+        line-height: 1.4;
+        margin: 0;
+      }
+
+      /* --- Уровни --- */
+      .level-bar {
+        margin-top: 14px;
+        height: 6px;
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 3px;
+        overflow: hidden;
+      }
+
+      .level-fill {
+        height: 100%;
+        background: var(--gradient-main);
+        border-radius: 3px;
+        transition: width 0.6s ease;
+      }
+
+      .level-label {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 6px;
+        font-family: 'Manrope', sans-serif;
+        font-size: 0.75rem;
+        color: var(--text-gray);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      /* --- Блок "Изучаю сейчас" --- */
+      .learning-block {
+        margin-top: 48px;
+        width: 100%;
+        max-width: 800px;
+        padding: 36px;
+        border-radius: 20px;
+        background: linear-gradient(135deg, rgba(138, 43, 239, 0.1), rgba(0, 119, 182, 0.1));
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+        text-align: center;
+      }
+
+      .learning-block h2 {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 1.8rem;
+        text-transform: uppercase;
+        letter-spacing: 4px;
+        color: #fff;
+        margin: 0 0 16px 0;
+        text-shadow: 0 0 20px rgba(138, 43, 239, 0.5);
+      }
+
+      .learning-block p {
+        color: rgba(255, 255, 255, 0.7);
+        font-family: 'Manrope', sans-serif;
+        font-size: 1rem;
+        margin: 0 0 24px 0;
+        line-height: 1.5;
+      }
+
+      .learning-tags {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .learning-tag {
+        background: rgba(0, 0, 0, 0.4);
+        padding: 8px 16px;
+        border-radius: 10px;
+        font-family: 'Orbitron', sans-serif;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--accent-cyan);
+        border: 1px solid rgba(0, 255, 220, 0.25);
+      }
+
+      /* --- Блок инструментов --- */
+      .tools-section {
+        margin-top: 48px;
+        width: 100%;
+        max-width: 800px;
+        text-align: center;
+      }
+
+      .tools-section h2 {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 1.6rem;
+        text-transform: uppercase;
+        letter-spacing: 4px;
+        color: #fff;
+        margin-bottom: 24px;
+        background: var(--gradient-main);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .tools-grid {
+        display: flex;
+        justify-content: center;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+
+      .tool-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(0, 0, 0, 0.4);
+        padding: 12px 20px;
+        border-radius: 12px;
+        font-family: 'Orbitron', sans-serif;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #fff;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .tool-badge:hover {
+        border-color: var(--primary-purple);
+        box-shadow: 0 0 16px rgba(138, 43, 239, 0.3);
+        transform: translateY(-3px);
+      }
+
+      .tool-badge i {
+        color: var(--primary-purple);
+      }
+
+      /* --- Блок фриланса (Kwork + WordPress) --- */
+      .freelance-block {
+        margin-top: 48px;
+        width: 100%;
+        max-width: 800px;
+        padding: 36px;
+        border-radius: 20px;
+        background: linear-gradient(135deg, rgba(255, 215, 0, 0.06), rgba(138, 43, 239, 0.08));
+        border: 1px solid rgba(255, 215, 0, 0.2);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+        text-align: center;
+      }
+
+      .freelance-block h2 {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 1.8rem;
+        text-transform: uppercase;
+        letter-spacing: 4px;
+        color: #fff;
+        margin: 0 0 16px 0;
+        text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+      }
+
+      .freelance-block p {
+        color: rgba(255, 255, 255, 0.7);
+        font-family: 'Manrope', sans-serif;
+        font-size: 1rem;
+        margin: 0 0 20px 0;
+        line-height: 1.5;
+      }
+
+      .freelance-tags {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .freelance-tag {
+        background: rgba(255, 215, 0, 0.1);
+        padding: 8px 16px;
+        border-radius: 10px;
+        font-family: 'Orbitron', sans-serif;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #ffd700;
+        border: 1px solid rgba(255, 215, 0, 0.3);
+      }
+
+      .freelance-tag.purple {
+        background: rgba(138, 43, 239, 0.1);
+        color: var(--primary-purple);
+        border-color: rgba(138, 43, 239, 0.3);
+      }
+
+      @media (max-width: 768px) {
+        .code-title { font-size: 2.5rem; }
+        .skills-grid { grid-template-columns: 1fr; }
+        .code-page-wrapper { padding: 40px 16px; }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Фоновые формулы -->
+    <div class="math-bg">
+      <div class="math-formula">∫ f(x) dx = F(x) + C</div>
+      <div class="math-formula">∇ ⋅ E = ρ / ε₀</div>
+      <div class="math-formula">e^(iπ) + 1 = 0</div>
+      <div class="math-formula">∑ n² = n(n+1)(2n+1)/6</div>
+      <div class="math-formula">∂u/∂t = α ∇²u</div>
+    </div>
+
+    <main class="container">
+      <div class="code-page-wrapper">
+        <!-- Кнопка НАЗАД -->
+        <div class="back-btn-wrapper">
+          <a href="index.html" class="back-btn">
+            <span class="back-icon">◀</span> На главную
+          </a>
+        </div>
+
+        <h1 class="code-title">Код &amp; проекты</h1>
+        <p class="code-subtitle">Веб, Python, автоматизация. Пишу код как музыку — с ритмом, структурой и ощущением.</p>
+
+        <!-- Декоративный код-блок -->
+        <div class="code-snippet">
+          <div class="code-header">
+            <div class="code-dot red"></div>
+            <div class="code-dot yellow"></div>
+            <div class="code-dot green"></div>
+            <span class="code-filename">raziel.py</span>
+          </div>
+          <div class="code-body">
+<span class="kw">def</span> <span class="fn">create_track</span>(<span class="var">vibe</span>, <span class="var">tempo</span>):<br>
+&nbsp;&nbsp;<span class="var">bass</span> = <span class="fn">algorithm</span>(<span class="var">tempo</span>)<br>
+&nbsp;&nbsp;<span class="var">melody</span> = <span class="fn">experiment</span>(<span class="var">vibe</span>)<br>
+&nbsp;&nbsp;<span class="kw">return</span> <span class="fn">mix</span>(<span class="var">bass</span>, <span class="var">melody</span>)<br><br>
+<span class="comment"># сайт = композиция</span><br>
+<span class="var">site</span> = <span class="fn">create_track</span>(<span class="str">"techno"</span>, <span class="num">128</span>)<br>
+<span class="fn">print</span>(<span class="str">"RAZIEL.dev — works"</span>)
+          </div>
+        </div>
+
+        <!-- Текущий стек -->
+        <section class="skills-section">
+          <h2>Мой стек</h2>
+          <div class="skills-grid">
+            <!-- HTML/CSS -->
+            <article class="skill-card">
+              <div class="skill-icon"><i class="fab fa-html5"></i></div>
+              <h3>HTML &amp; CSS</h3>
+              <p>Лендинги, вёрстка, анимации, микро‑интеракции. Делаю сайты вручную с ии, без конструкторов.</p>
+              <div class="level-bar"><div class="level-fill" style="width: 55%;"></div></div>
+              <div class="level-label"><span>Уверенный</span><span>55%</span></div>
+            </article>
+
+            <!-- JavaScript -->
+            <article class="skill-card">
+              <div class="skill-icon"><i class="fab fa-js"></i></div>
+              <h3>JavaScript</h3>
+              <p>Интерактив, плееры, DOM, события. Базовый уровень — но хватает для живых сайтов.</p>
+              <div class="level-bar"><div class="level-fill" style="width: 20%;"></div></div>
+              <div class="level-label"><span>Базовый</span><span>20%</span></div>
+            </article>
+
+            <!-- Python -->
+            <article class="skill-card">
+              <div class="skill-icon"><i class="fab fa-python"></i></div>
+              <h3>Python</h3>
+              <p>Скрипты, автоматизация, работа с файлами. Расширяюсь в библиотеки: объединение файлов, новеллы.</p>
+              <div class="level-bar"><div class="level-fill" style="width: 60%;"></div></div>
+              <div class="level-label"><span>чуть выше среднего</span><span>60%</span></div>
+            </article>
+
+            <!-- Excel / Google Sheets -->
+            <article class="skill-card">
+              <div class="skill-icon"><i class="fas fa-table"></i></div>
+              <h3>Excel &amp; Таблицы</h3>
+              <p>Формулы, сводные, форматирование. Иногда Google Sheets для совместной работы.</p>
+              <div class="level-bar"><div class="level-fill" style="width: 30%;"></div></div>
+              <div class="level-label"><span>Начинающий</span><span>30%</span></div>
+            </article>
+          </div>
+        </section>
+
+        <!-- Изучаю сейчас -->
+        <section class="learning-block">
+          <h2>Изучаю сейчас</h2>
+          <p>Расширяю горизонты: глубже в Python, пробую Java, поднимаю уровень HTML. Цель — брать более сложные заказы.</p>
+          <div class="learning-tags">
+            <span class="learning-tag">Python библиотеки</span>
+            <span class="learning-tag">Объединение файлов</span>
+            <span class="learning-tag">Библиотеки для новелл</span>
+            <span class="learning-tag">Java</span>
+            <span class="learning-tag">HTML Pro</span>
+            <span class="learning-tag">WordPress</span>
+          </div>
+        </section>
+
+        <!-- Инструменты -->
+        <section class="tools-section">
+          <h2>Инструменты</h2>
+          <div class="tools-grid">
+            <span class="tool-badge"><i class="fas fa-code"></i> VS Code</span>
+            <span class="tool-badge"><i class="fab fa-python"></i> Thonny</span>
+            <span class="tool-badge"><i class="fab fa-python"></i> Mimo</span>
+            <span class="tool-badge"><i class="fab fa-github"></i> GitHub</span>
+          </div>
+        </section>
+
+        <!-- Фриланс -->
+        <section class="freelance-block">
+          <h2>Фриланс &amp; планы</h2>
+          <p>Беру заказы на Kwork. Ближайшая цель — освоить WordPress, чтобы расширить спектр услуг и брать проекты на CMS.</p>
+          <div class="freelance-tags">
+            <span class="freelance-tag"><i class="fas fa-shopping-bag"></i> Kwork</span>
+            <span class="freelance-tag purple"><i class="fab fa-wordpress"></i> WordPress — в планах</span>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      <div class="footer-line"></div>
+      <p>&copy; 2026 RAZIEL. Все права защищены.</p>
+    </footer>
+  </body>
+</html>

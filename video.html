@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Видеомонтаж | RAZIEL</title>
+    
+    <link rel="stylesheet" href="css/style.css" />
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet" />
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+    <style>
+      :root {
+        --primary-purple: #8a2be3;
+        --accent-cyan: #00ffdc;
+        --text-gray: #aaa;
+        --card-bg: rgba(255, 255, 255, 0.04);
+        --gradient-main: linear-gradient(to right, var(--primary-purple), var(--accent-cyan));
+      }
+
+      .video-page-wrapper {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 80px 20px;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        z-index: 2;
+      }
+
+      .back-btn-wrapper {
+        align-self: flex-start;
+        margin-bottom: 40px;
+      }
+
+      .back-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 14px 32px;
+        background: var(--gradient-main);
+        color: #fff;
+        text-decoration: none;
+        border-radius: 50px;
+        font-family: 'Orbitron', monospace;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        box-shadow: 0 10px 30px rgba(138, 43, 239, 0.35);
+        transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+        position: relative;
+        overflow: hidden;
+        border: none;
+        cursor: pointer;
+      }
+
+      .back-btn:hover {
+        transform: translateY(-4px) scale(1.02);
+        box-shadow: 0 16px 40px rgba(138, 43, 239, 0.55);
+      }
+
+      .back-icon {
+        margin-right: 10px;
+        font-size: 1.1rem;
+        transform: rotate(180deg);
+      }
+
+      h1.video-title {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 3.5rem;
+        text-transform: uppercase;
+        letter-spacing: 6px;
+        margin-bottom: 16px;
+        background: var(--gradient-main);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-fill-color: transparent;
+        text-shadow: 0 0 30px rgba(138, 43, 239, 0.4);
+        width: 100%;
+        text-align: center;
+      }
+
+      .video-subtitle {
+        color: var(--text-gray);
+        font-family: 'Manrope', sans-serif;
+        font-size: 1.1rem;
+        max-width: 600px;
+        text-align: center;
+        line-height: 1.5;
+      }
+
+      .reels-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 24px;
+        width: 100%;
+        max-width: 1100px;
+        margin-top: 48px;
+      }
+
+      .reel-card {
+        padding: 20px;
+        border-radius: 16px;
+        background: var(--card-bg);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .reel-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 16px 36px rgba(138, 43, 239, 0.2);
+      }
+
+      .reel-cover {
+        width: 100%;
+        height: 180px;
+        background: #0f0f1a;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 16px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .reel-cover::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: radial-gradient(circle at 50% 50%, rgba(138, 43, 239, 0.15) 0%, transparent 60%);
+        pointer-events: none;
+      }
+
+      .reel-icon {
+        font-size: 2.8rem;
+        color: rgba(255, 255, 255, 0.9);
+        filter: drop-shadow(0 0 8px rgba(138, 43, 239, 0.5));
+      }
+
+      .reel-info h3 {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 1.2rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: #fff;
+        margin: 0 0 6px 0;
+      }
+
+      .reel-info .format-tag {
+        font-family: 'Manrope', sans-serif;
+        font-size: 0.85rem;
+        color: var(--primary-purple);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 8px;
+        display: inline-block;
+        padding: 4px 10px;
+        border: 1px solid var(--primary-purple);
+        border-radius: 6px;
+      }
+
+      .reel-info p {
+        color: var(--text-gray);
+        font-family: 'Manrope', sans-serif;
+        font-size: 0.95rem;
+        line-height: 1.4;
+        margin: 0;
+      }
+
+      .tools-block {
+        margin-top: 64px;
+        width: 100%;
+        max-width: 800px;
+        padding: 40px;
+        border-radius: 20px;
+        background: linear-gradient(135deg, rgba(138, 43, 239, 0.1), rgba(0, 119, 182, 0.1));
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .tools-block h2 {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 2rem;
+        text-transform: uppercase;
+        letter-spacing: 4px;
+        margin: 0 0 20px 0;
+        color: #fff;
+        text-shadow: 0 0 20px rgba(138, 43, 239, 0.5);
+      }
+
+      .tools-list {
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        flex-wrap: wrap;
+      }
+
+      .tool-badge {
+        background: rgba(0, 0, 0, 0.4);
+        padding: 10px 18px;
+        border-radius: 12px;
+        font-family: 'Orbitron', sans-serif;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #fff;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      @media (max-width: 768px) {
+        .reels-grid { grid-template-columns: 1fr; }
+        .video-title { font-size: 2.5rem; }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Фоновые формулы -->
+    <div class="math-bg">
+      <div class="math-formula">∫ f(x) dx = F(x) + C</div>
+      <div class="math-formula">∇ ⋅ E = ρ / ε₀</div>
+      <div class="math-formula">e^(iπ) + 1 = 0</div>
+      <div class="math-formula">∑ n² = n(n+1)(2n+1)/6</div>
+      <div class="math-formula">∂u/∂t = α ∇²u</div>
+    </div>
+
+    <main class="container">
+      <div class="video-page-wrapper">
+        <!-- Кнопка НАЗАД -->
+        <div class="back-btn-wrapper">
+          <a href="index.html" class="back-btn">
+            <span class="back-icon">◀</span> На главную
+          </a>
+        </div>
+
+        <h1 class="video-title">Видеомонтаж</h1>
+        <p class="video-subtitle">Короткие форматы, склейки, титры и переходы. Делаю так, чтобы каждый кадр работал на вайб.</p>
+
+        <!-- Сетка работ -->
+        <section class="reels-grid">
+          <!-- Reels/Shorts -->
+          <article class="reel-card">
+            <div class="reel-cover">
+              <i class="fas fa-play-circle reel-icon"></i>
+            </div>
+            <div class="reel-info">
+              <h3>Reels & Shorts</h3>
+              <span class="format-tag">TikTok / YouTube Shorts</span>
+              <p>Быстрые склейки, динамичные переходы, работа с ритмом под трек.</p>
+            </div>
+          </article>
+
+          <!-- Long-form -->
+          <article class="reel-card">
+            <div class="reel-cover">
+              <i class="fas fa-film reel-icon"></i>
+            </div>
+            <div class="reel-info">
+              <h3>Long-form</h3>
+              <span class="format-tag">YouTube / VK Video</span>
+              <p>Полноценные видео с монтажом и дальнейшим развитием.</p>
+            </div>
+          </article>
+
+          <!-- Montage/Edit -->
+          <article class="reel-card">
+            <div class="reel-cover">
+              <i class="fas fa-cut reel-icon"></i>
+            </div>
+            <div class="reel-info">
+              <h3>Montage/Edit</h3>
+              <span class="format-tag">Compilations / Highlights</span>
+              <p>Сборки лучших моментов, синхронизация с музыкой, эффекты.</p>
+            </div>
+          </article>
+        </section>
+
+        <!-- Блок с инструментами -->
+        <section class="tools-block">
+          <h2>В чём работаю</h2>
+          <div class="tools-list">
+            <span class="tool-badge"><i class="fab fa-youtube"></i> Premier Pro</span>
+            <span class="tool-badge"><i class="fab fa-tiktok"></i> CapCut</span>
+            <span class="tool-badge"><i class="fas fa-palette"></i> Paint.net</span>
+            <span class="tool-badge"><i class="fas fa-volume-up"></i> Audacity</span>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      <div class="footer-line"></div>
+      <p>&copy; 2026 RAZIEL. Все права защищены.</p>
+    </footer>
+  </body>
+</html>
